@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Conference 2026</title>
+    <style>
+/* General Body Styling */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header Styling */
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+/* Main Content Styling */
+main {
+    padding: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Search Bar */
+.search-container {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+#searchInput {
+    width: 80%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Schedule Container */
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Talk Card Styling */
+.talk-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.talk-card:hover {
+    transform: translateY(-5px);
+}
+
+.talk-card h2 {
+    margin-top: 0;
+    color: #007BFF;
+}
+
+.talk-time {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.talk-speakers {
+    font-style: italic;
+    color: #444;
+    margin-bottom: 1rem;
+}
+
+.talk-categories {
+    margin-top: 1rem;
+}
+
+.talk-categories .category {
+    display: inline-block;
+    background: #007BFF;
+    color: #fff;
+    padding: 0.3rem 0.7rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+/* Break Card Styling */
+.break-card {
+    background: #e9ecef;
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    background: #333;
+    color: #fff;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Tech Conference 2026</h1>
+        <p>A one-day event full of insightful technical talks.</p>
+    </header>
+
+    <main>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by category (e.g., AI, JavaScript)...">
+        </div>
+        <div id="scheduleContainer" class="schedule-container">
+            <!-- Schedule will be injected here by JavaScript -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Tech Conference. All rights reserved.</p>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const talks = [
+        {
+            title: "The Future of Artificial Intelligence",
+            speakers: ["Dr. Evelyn Reed"],
+            categories: ["AI", "Machine Learning"],
+            duration: 60,
+            description: "A deep dive into the next generation of AI and its potential impact on society and technology."
+        },
+        {
+            title: "Modern JavaScript Frameworks in 2026",
+            speakers: ["Johnathan Carter", "Maria Rodriguez"],
+            categories: ["JavaScript", "Web Development"],
+            duration: 60,
+            description: "An overview and comparison of the most popular JavaScript frameworks, helping you choose the right one for your next project."
+        },
+        {
+            title: "Cybersecurity in a Quantum World",
+            speakers: ["Aisha Khan"],
+            categories: ["Security", "Quantum Computing"],
+            duration: 60,
+            description: "Exploring the threats and opportunities that quantum computing brings to the world of cybersecurity."
+        },
+        {
+            title: "Building Scalable Cloud Architectures",
+            speakers: ["Kenji Tanaka"],
+            categories: ["Cloud", "DevOps"],
+            duration: 60,
+            description: "Best practices and patterns for designing and implementing scalable and resilient cloud-native applications."
+        },
+        {
+            title: "The Ethics of Code: A Developer's Guide",
+            speakers: ["Dr. Lena Petrova", "Samuel Green"],
+            categories: ["Ethics", "Software Development"],
+            duration: 60,
+            description: "A discussion on the ethical responsibilities of software developers and how to build more inclusive and fair technology."
+        },
+        {
+            title: "Introduction to WebAssembly",
+            speakers: ["Mei Lin"],
+            categories: ["WebAssembly", "Performance"],
+            duration: 60,
+            description: "Learn how WebAssembly is revolutionizing web development by enabling near-native performance in the browser."
+        }
+    ];
+
+    const scheduleContainer = document.getElementById('scheduleContainer');
+    const searchInput = document.getElementById('searchInput');
+
+    const formatTime = (date) => {
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+
+    const generateSchedule = (filteredTalks = talks) => {
+        scheduleContainer.innerHTML = '';
+        let currentTime = new Date();
+        currentTime.setHours(10, 0, 0, 0); // Event starts at 10:00 AM
+
+        let talksToShow = talks.filter(talk => 
+            filteredTalks.some(filteredTalk => filteredTalk.title === talk.title)
+        );
+
+        if (talksToShow.length === 0 && searchInput.value.trim() !== '') {
+            scheduleContainer.innerHTML = '<p style="text-align:center;">No talks found for the selected category.</p>';
+            return;
+        }
+
+
+        talks.forEach((talk, index) => {
+
+            if (filteredTalks.length > 0 && !filteredTalks.find(t => t.title === talk.title)) {
+                return;
+            }
+
+            // After the 3rd talk, add a lunch break
+            if (index === 3) {
+                const lunchStartTime = new Date(currentTime.getTime());
+                currentTime.setHours(currentTime.getHours() + 1);
+                const lunchEndTime = new Date(currentTime.getTime());
+                
+                const breakCard = document.createElement('div');
+                breakCard.className = 'break-card';
+                breakCard.innerHTML = `<h3>Lunch Break</h3><p>${formatTime(lunchStartTime)} - ${formatTime(lunchEndTime)}</p>`;
+                scheduleContainer.appendChild(breakCard);
+            }
+
+            const startTime = new Date(currentTime.getTime());
+            const endTime = new Date(startTime.getTime() + talk.duration * 60000);
+
+            const talkCard = document.createElement('div');
+            talkCard.className = 'talk-card';
+
+            const categoriesHtml = talk.categories.map(cat => `<span class="category">${cat}</span>`).join(' ');
+
+            talkCard.innerHTML = `
+                <div class="talk-time">${formatTime(startTime)} - ${formatTime(endTime)}</div>
+                <h2>${talk.title}</h2>
+                <div class="talk-speakers">By: ${talk.speakers.join(', ')}</div>
+                <p>${talk.description}</p>
+                <div class="talk-categories">${categoriesHtml}</div>
+            `;
+            scheduleContainer.appendChild(talkCard);
+
+            // Add 10-minute break after each talk, except the last one
+            if (index < talks.length - 1) {
+                currentTime = new Date(endTime.getTime() + 10 * 60000);
+            }
+        });
+    };
+
+    const filterTalks = () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        if (searchTerm === '') {
+            generateSchedule(talks);
+            return;
+        }
+
+        const filtered = talks.filter(talk => 
+            talk.categories.some(cat => cat.toLowerCase().includes(searchTerm))
+        );
+        generateSchedule(filtered);
+    };
+
+    searchInput.addEventListener('input', filterTalks);
+
+    generateSchedule();
+});
+    </script>
+</body>
+</html>
